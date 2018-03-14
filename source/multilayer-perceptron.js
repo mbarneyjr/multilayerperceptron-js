@@ -39,11 +39,13 @@ class MultiLayerPerceptron {
     this.weightArray.push(weights);
     this.biasArray.push(biases);
     this.activationFunctions.push(layer.activation);
+    return this;
   }
 
   randomizeWeights() {
     this.weightArray.forEach(weights => weights.randomize(-1, 1));
     this.biasArray.forEach(bias => bias.randomize(-1, 1));
+    return this;
   }
 
   predict(inputArray) {
@@ -135,7 +137,6 @@ class MultiLayerPerceptron {
       this.biasArray[i].print();
     }
   }
-
 }
 
 module.exports = {

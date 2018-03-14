@@ -10,11 +10,11 @@ let tanh = new ActivationFunction(
   y => 1 - (y * y)
 );
 
-let mlp = new MultiLayerPerceptron({inputDimension: 2});
-mlp.addLayer({nodes: 2, activation: sigmoid});
-mlp.addLayer({nodes: 2, activation: sigmoid});
-mlp.addLayer({nodes: 1, activation: sigmoid});
-mlp.randomizeWeights();
+let mlp = new MultiLayerPerceptron({inputDimension: 2})
+  .addLayer({nodes: 2, activation: sigmoid})
+  .addLayer({nodes: 2, activation: sigmoid})
+  .addLayer({nodes: 1, activation: sigmoid})
+  .randomizeWeights();
 
 let dataset = {
   inputs: [
