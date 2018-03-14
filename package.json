@@ -1,0 +1,10 @@
+{
+  "name": "multilayer-perceptron-js",
+  "version": "1.0.0",
+  "description": "A small multilayer perceptron library for educational purposes",
+  "scripts": {
+    "test": "echo \"Error: tests coming soon!\" && exit 1"
+  },
+  "author": "Michael Barney, Jr",
+  "license": "ISC"
+}
