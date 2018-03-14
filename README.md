@@ -1,4 +1,6 @@
-# Readme contents coming soon
+# MultilayerPerceptronJS
+
+![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/mlpjs.jpg)
 
 Refer to my [blog post]().
 
