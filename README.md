@@ -1,6 +1,6 @@
 # MultilayerPerceptronJS
 
-![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/mlpjs.jpg)
+![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/projects/mlpjs.jpg)
 
 Refer to my [blog post]().
 
