@@ -2,7 +2,7 @@
 
 ![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/projects/mlpjs.jpg)
 
-Refer to my [blog post]().
+Refer to my [blog post](http://michaelbarneyjr.com/blog/write-your-own-neural-networks/).
 
 This is a small neural network "library" that's intended for educational purposes. I wanted to develop something that is easily understood and very readable, so this library is far from optimized or efficient.
 
