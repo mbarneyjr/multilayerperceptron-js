@@ -6,10 +6,18 @@ Refer to my [blog post](http://michaelbarneyjr.com/blog/write-your-own-neural-ne
 
 This is a small neural network "library" that's intended for educational purposes. I wanted to develop something that is easily understood and very readable, so this library is far from optimized or efficient.
 
+## Installing
+
+You can install this via npm
+
+``` bash
+npm install multilayer-perceptron-js
+```
+
 ## Creating a neural network
 
 ``` javascript
-const { MultiLayerPerceptron, ActivationFunction } = require('./source/multilayer-perceptron');
+const { MultiLayerPerceptron, ActivationFunction } = require('multilayer-perceptron-js');
 
 let sigmoid = new ActivationFunction(
   x => 1 / (1 + Math.exp(-x)), // sigmoid

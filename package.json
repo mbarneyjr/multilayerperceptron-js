@@ -1,6 +1,6 @@
 {
   "name": "multilayer-perceptron-js",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "A small multilayer perceptron library for educational purposes",
   "scripts": {
     "test": "mocha"
@@ -10,5 +10,18 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^5.0.5"
-  }
+  },
+  "keywords": [
+    "multilayer perceptron",
+    "neural network"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mbarneyjr/multilayerperceptron-js"
+  },
+  "files": [
+    "source/multilayer-perceptron.js",
+    "source/matrix.js"
+  ],
+  "main": "source/multilayer-perceptron"
 }

@@ -1,5 +1,4 @@
 const { MultiLayerPerceptron, ActivationFunction } = require('./source/multilayer-perceptron');
-const { Matrix } = require('./source/matrix')
 
 let sigmoid = new ActivationFunction(
   x => 1 / (1 + Math.exp(-x)), // sigmoid
