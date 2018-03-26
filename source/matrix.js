@@ -13,25 +13,35 @@ class Matrix  {
   }
 
   static fromArray(inputArray) {
-    let result = new Matrix(inputArray.length, 1);
-    for (let i = 0; i < inputArray.length; i++) {
-      result.data[i][0] = inputArray[i];
+    if (!inputArray instanceof Array) {
+      throw Error('Cannot create Matrix from non-Array type!');
     }
-    return result;
+    if (inputArray[0] instanceof Array) {
+      if (new Set(inputArray.map(a => a.length)).size != 1) {
+        throw Error('Array must be square');
+      }
+      let result = new Matrix(inputArray.length, inputArray[0].length);
+      result.data = inputArray;
+      return result;
+    } else {
+      let result = new Matrix(inputArray.length, 1);
+      for (let row = 0; row < inputArray.length; row++) {
+        result.data[row][0] = inputArray[row];
+      }
+      return result;
+    }
   }
 
   toArray() {
-    let result = [];
-    for (let row = 0; row < this.rows; row++) {
-      for (let col = 0; col < this.columns; col++) {
-        result.push(this.data[row][col]);
-      }
+    if (this.rows == 1) {
+      return this.data[0];
+    } else {
+      return this.data;
     }
-    return result;
   }
 
-  randomize(lower, upper, floor) {
-    if (lower === undefined || upper === undefined) {
+  randomize(lower, upper) {
+    if (lower === undefined || upper === undefined || upper < lower) {
       throw Error('Please specify upper and lower bounds!');
     }
     for (let row = 0; row < this.rows; row++) {
@@ -172,7 +182,6 @@ class Matrix  {
     console.log(fstring.substring(0, fstring.length - 2) + ' ]');
   }
 }
-
 
 module.exports = {
   Matrix

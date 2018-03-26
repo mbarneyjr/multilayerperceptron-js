@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "A small multilayer perceptron library for educational purposes",
   "scripts": {
-    "test": "echo \"Error: tests coming soon!\" && exit 1"
+    "test": "mocha"
   },
   "author": "Michael Barney, Jr",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.5"
+  }
 }
