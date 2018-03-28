@@ -171,8 +171,9 @@ describe('MultiLayerPerceptron Tests', () => {
         .addLayer({nodes:2, activation: func})
         .randomizeWeights(1, 1);
       const result = mlp.predict([1, 1, 1]);
-      const expected = [new Matrix(2, 1)];
-      expected[0].data = [[4], [4]];
+      const expected = [new Matrix(3, 1), new Matrix(2, 1)];
+      expected[0].data = [[1], [1], [1]];
+      expected[1].data = [[4], [4]];
       expect(result.activations).to.deep.equal(expected);
     });
   });

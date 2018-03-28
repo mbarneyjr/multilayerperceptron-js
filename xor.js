@@ -11,9 +11,10 @@ let tanh = new ActivationFunction(
 
 let mlp = new MultiLayerPerceptron({inputDimension: 2})
   .addLayer({nodes: 2, activation: sigmoid})
-  .addLayer({nodes: 2, activation: sigmoid})
   .addLayer({nodes: 1, activation: sigmoid})
   .randomizeWeights();
+
+mlp.loadWeights('./xor.json');
 
 let dataset = {
   inputs: [
@@ -39,6 +40,8 @@ mlp.train({
   learningRate: 0.1,
   verbose: true
 });
+
+mlp.saveWeights('./xor.json');
 
 dataset.inputs.forEach(input => {
   console.log(`${input} => ${mlp.predict(input).prediction}`);
