@@ -110,6 +110,7 @@ class MultiLayerPerceptron {
         console.log(`Epoch ${epoch}; ${this.evaluate(options.validationData, options.validationLabels)}`);
       }
     }
+    return this;
   }
 
   evaluate(dataInputs, dataLabels) {
@@ -138,6 +139,7 @@ class MultiLayerPerceptron {
     this.biasArray.forEach(bias =>
       saveObject.biases.push(bias.data));
     fs.writeFileSync(filepath, JSON.stringify(saveObject, null, 2), 'utf8');
+    return this;
   }
 
   loadWeights(filepath) {
@@ -152,10 +154,11 @@ class MultiLayerPerceptron {
         this.biasArray[i].data = loadObject.biases[i];
       }
     }
+    return this;
   }
 }
 
 module.exports = {
   MultiLayerPerceptron,
   ActivationFunction
-}
+};
