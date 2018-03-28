@@ -185,7 +185,6 @@ describe('MultiLayerPerceptron Tests', () => {
       const input = [1, 0];
       const output = [1];
       const mlp = new MultiLayerPerceptron({inputDimension: 2})
-        .addLayer({nodes:2, activation: sigmoid})
         .addLayer({nodes:1, activation: sigmoid})
         .randomizeWeights();
       const oldResult = mlp.predict(input);
