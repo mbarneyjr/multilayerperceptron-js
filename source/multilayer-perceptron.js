@@ -1,20 +1,12 @@
 const { Matrix } = require('./matrix');
-
-String.prototype.center = function( width, padding ) {
-  padding = padding || " ";
-  padding = padding.substr( 0, 1 );
-  if( this.length < width ) {
-    var len		= width - this.length;
-    var remain	= ( len % 2 == 0 ) ? "" : padding;
-    var pads	= padding.repeat( parseInt( len / 2 ) );
-    return pads + this + pads + remain;
-  }
-  else
-    return this;
-}
+const fs = require('fs');
+const path = require('path');
 
 class ActivationFunction {
   constructor(func, derivative) {
+    if (typeof(func) != 'function' || typeof(derivative) != 'function') {
+      throw Error('ActivationFunction requires two functions');
+    }
     this.function = func;
     this.derivative = derivative;
   }
@@ -42,9 +34,14 @@ class MultiLayerPerceptron {
     return this;
   }
 
-  randomizeWeights() {
-    this.weightArray.forEach(weights => weights.randomize(-1, 1));
-    this.biasArray.forEach(bias => bias.randomize(-1, 1));
+  randomizeWeights(lower, upper) {
+    if (lower == undefined && upper == undefined) {
+      this.weightArray.forEach(weights => weights.randomize(-1, 1));
+      this.biasArray.forEach(bias => bias.randomize(-1, 1));
+    } else {
+      this.weightArray.forEach(weights => weights.randomize(lower, upper));
+      this.biasArray.forEach(bias => bias.randomize(lower, upper));
+    }
     return this;
   }
 
@@ -56,6 +53,7 @@ class MultiLayerPerceptron {
 
     let sum = input;
     let activations = [];
+    activations.push(input);
     for (let i = 0; i < this.weightArray.length; i++) {
       // figure out the next layer's node values
       sum = Matrix.dot(this.weightArray[i], sum);
@@ -65,30 +63,36 @@ class MultiLayerPerceptron {
       sum.map(this.activationFunctions[i].function);
     }
     return {
-      prediction: sum.toArray(),
+      prediction: Matrix.transpose(sum).toArray(),
       activations: activations
     }
   }
 
   trainIteration(input, target, learningRate) {
+    if (input.length !== this.inputDimension || target.length !== this.weightArray[this.weightArray.length - 1].rows) {
+      throw Error('Input and target output must match the dimensions of the network!');
+    }
+    if (learningRate <= 0) {
+      throw Error('Learning rate must be greater than 0');
+    }
     let { prediction, activations } = this.predict(input, target);
     let gradients, weightDeltas, previousTransposed;
     let targets = Matrix.fromArray(target);
     let layerOutputs = Matrix.fromArray(prediction);
     let layerErrors = Matrix.subtract(targets, layerOutputs);
-    for (let i = this.weightArray.length - 1; i > 0 ; i--) {
+    for (let i = this.weightArray.length - 1; i >= 0 ; i--) {
       // calculate gradient
       gradients = Matrix.map(layerOutputs, this.activationFunctions[i].derivative)
         .multiply(layerErrors)
         .multiply(learningRate)
       // calculate deltas
-      previousTransposed = Matrix.transpose(activations[i-1]);
+      previousTransposed = Matrix.transpose(activations[i]);
       weightDeltas = Matrix.dot(gradients, previousTransposed);
       // update the weights and biases
       this.weightArray[i].add(weightDeltas);
       this.biasArray[i].add(gradients);
       // calculate next layer's errors
-      layerOutputs = activations[i-1];
+      layerOutputs = activations[i];
       layerErrors = Matrix.dot(Matrix.transpose(this.weightArray[i]), layerErrors);
     }
   }
@@ -102,9 +106,11 @@ class MultiLayerPerceptron {
       [...Array(options.trainData.length).keys()].sort(() => 0.5 - Math.random()).forEach(dataElement => {
         this.trainIteration(options.trainData[dataElement], options.trainLabels[dataElement], options.learningRate);
       })
-      if (options.verbose)
-        console.log(`Epoch ${epoch}; Error ${this.evaluate(options.validationData, options.validationLabels)}`);
+      if (options.verbose) {
+        console.log(`Epoch ${epoch}; ${this.evaluate(options.validationData, options.validationLabels)}`);
+      }
     }
+    return this;
   }
 
   evaluate(dataInputs, dataLabels) {
@@ -112,34 +118,47 @@ class MultiLayerPerceptron {
       throw Error('You have to supply one label for each data item!')
     }
     let error = 0;
+    let prediction, target;
     for (let dataElement = 0; dataElement < dataInputs.length; dataElement++) {
-      error += Math.abs(this.predict(dataInputs[dataElement]).prediction - dataLabels[dataElement]);
+      prediction = this.predict(dataInputs[dataElement]).prediction;
+      target = dataLabels[dataElement];
+      for (let i = 0; i < prediction.length; i++) {
+        error += Math.abs(prediction[i] - target[i]);
+      }
     }
-    return error;
+    return error
   }
 
-  print(node='*') {
-    node += ' ';
-    let longestLayer = Math.max(
-      ...this.weightArray.map(w => w.rows),
-      this.inputDimension) * node.length;
-    console.log(node.repeat(this.inputDimension).center(longestLayer + 1));
-    this.weightArray.forEach(weight => {
-      console.log(`\n${node.repeat(weight.rows).center(longestLayer + 1)}`);
-    });
+  saveWeights(filepath) {
+    const saveObject = {
+      weights: [],
+      biases: []
+    };
+    this.weightArray.forEach(weights =>
+      saveObject.weights.push(weights.data));
+    this.biasArray.forEach(bias =>
+      saveObject.biases.push(bias.data));
+    fs.writeFileSync(filepath, JSON.stringify(saveObject, null, 2), 'utf8');
+    return this;
   }
 
-  printWeights() {
-    for (let i = 0; i < this.weightArray.length; i++) {
-      console.log('weight for layer: ', i);
-      this.weightArray[i].print();
-      console.log('bias for layer: ', i);
-      this.biasArray[i].print();
+  loadWeights(filepath) {
+    if (fs.existsSync(filepath)) {
+      const loadObject = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+      for (let i = 0; i < loadObject.weights.length; i++) {
+        this.weightArray[i].rows = loadObject.weights[i].length;
+        this.weightArray[i].columns = loadObject.weights[i][0].length;
+        this.weightArray[i].data = loadObject.weights[i];
+        this.biasArray[i].rows = loadObject.biases[i].length;
+        this.biasArray[i].columns = loadObject.biases[i][0].length;
+        this.biasArray[i].data = loadObject.biases[i];
+      }
     }
+    return this;
   }
 }
 
 module.exports = {
   MultiLayerPerceptron,
   ActivationFunction
-}
+};
