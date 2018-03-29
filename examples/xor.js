@@ -1,4 +1,4 @@
-const { MultiLayerPerceptron, ActivationFunction } = require('./source/multilayer-perceptron');
+const { MultiLayerPerceptron, ActivationFunction } = require('../source/multilayer-perceptron');
 
 let sigmoid = new ActivationFunction(
   x => 1 / (1 + Math.exp(-x)), // sigmoid
@@ -35,7 +35,7 @@ mlp.train({
   trainLabels: dataset.targets,
   validationData: dataset.inputs,
   validationLabels: dataset.targets,
-  numEpochs: 10000,
+  numEpochs: 100000,
   learningRate: 0.1,
   verbose: true
 })
