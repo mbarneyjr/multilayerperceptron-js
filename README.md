@@ -1,5 +1,7 @@
 # MultilayerPerceptronJS
 
+[![Node version](https://nodei.co/npm/multilayer-perceptron-js.png)](https://www.npmjs.com/package/multilayer-perceptron-js)
+
 ![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/projects/mlpjs.jpg)
 
 Refer to my [blog post](http://michaelbarneyjr.com/blog/write-your-own-neural-networks/).
