@@ -1,6 +1,6 @@
 {
   "name": "multilayer-perceptron-js",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "A small multilayer perceptron library for educational purposes",
   "scripts": {
     "test": "mocha"
