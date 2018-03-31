@@ -1,5 +1,7 @@
 # MultilayerPerceptronJS
 
+[![CircleCI](https://circleci.com/gh/mbarneyjr/multilayerperceptron-js.svg?style=svg)](https://circleci.com/gh/mbarneyjr/multilayerperceptron-js)
+
 ![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/projects/mlpjs.jpg)
 
 Refer to my [blog post](http://michaelbarneyjr.com/blog/write-your-own-neural-networks/).
