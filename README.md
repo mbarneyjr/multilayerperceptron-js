@@ -1,6 +1,6 @@
 # MultilayerPerceptronJS
 
-[![CircleCI](https://circleci.com/gh/mbarneyjr/multilayerperceptron-js.svg?style=svg)](https://circleci.com/gh/mbarneyjr/multilayerperceptron-js)
+[![CircleCI](https://img.shields.io/circleci/project/github/mbarneyjr/multilayerperceptron-js.svg)
 
 ![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/projects/mlpjs.jpg)
 
