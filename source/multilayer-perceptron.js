@@ -1,6 +1,4 @@
 const { Matrix } = require('./matrix');
-const fs = require('fs');
-const path = require('path');
 
 class ActivationFunction {
   constructor(func, derivative) {
@@ -14,6 +12,9 @@ class ActivationFunction {
 
 class MultiLayerPerceptron {
   constructor(options) {
+    if (options.inputDimension < 1) {
+      throw Error('Input dimension must be greater than zero!');
+    }
     this.weightArray = [];
     this.biasArray = [];
     this.activationFunctions = [];
@@ -21,12 +22,15 @@ class MultiLayerPerceptron {
   }
 
   addLayer(layer) {
-    let weights;
-    if (this.weightArray.length === 0) {
-      weights = new Matrix(layer.nodes, this.inputDimension);
-    } else {
-      weights = new Matrix(layer.nodes, this.weightArray[this.weightArray.length - 1].rows);
+    if (layer.nodes === undefined || layer.activation === undefined) {
+      throw Error('Layer requires a number of nodes and an activation function!');
     }
+    if (layer.nodes <= 0) {
+      throw Error('Layer must have a positive number of nodes!');
+    }
+    const weights = this.weightArray.length === 0 ?
+      new Matrix(layer.nodes, this.inputDimension) :
+      new Matrix(layer.nodes, this.weightArray[this.weightArray.length - 1].rows)
     let biases = new Matrix(layer.nodes, 1);
     this.weightArray.push(weights);
     this.biasArray.push(biases);
@@ -35,6 +39,9 @@ class MultiLayerPerceptron {
   }
 
   randomizeWeights(lower, upper) {
+    if (upper < lower) {
+      throw Error('Upper bound must be greater than or equal to lower bound');
+    }
     if (lower == undefined && upper == undefined) {
       this.weightArray.forEach(weights => weights.randomize(-1, 1));
       this.biasArray.forEach(bias => bias.randomize(-1, 1));
@@ -101,7 +108,7 @@ class MultiLayerPerceptron {
     if (options.trainData.length !== options.trainLabels.length ||
         options.validationData.length !== options.validationLabels.length) {
         throw Error('You have to supply one label for each data item!')
-      }
+    }
     for (let epoch = 1; epoch <= options.numEpochs; epoch++) {
       [...Array(options.trainData.length).keys()].sort(() => 0.5 - Math.random()).forEach(dataElement => {
         this.trainIteration(options.trainData[dataElement], options.trainLabels[dataElement], options.learningRate);
@@ -130,6 +137,7 @@ class MultiLayerPerceptron {
   }
 
   saveWeights(filepath) {
+    const fs = require('fs');
     const saveObject = {
       weights: [],
       biases: []
@@ -143,6 +151,7 @@ class MultiLayerPerceptron {
   }
 
   loadWeights(filepath) {
+    const fs = require('fs');
     if (fs.existsSync(filepath)) {
       const loadObject = JSON.parse(fs.readFileSync(filepath, 'utf8'));
       for (let i = 0; i < loadObject.weights.length; i++) {
