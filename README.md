@@ -1,6 +1,6 @@
 # MultilayerPerceptronJS
 
-<center><img src="https://nodei.co/npm/multilayer-perceptron-js.png"></center>
+<p style="text-align: center;"><img src="https://nodei.co/npm/multilayer-perceptron-js.png"></p>
 
 ![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/projects/mlpjs.jpg)
 
