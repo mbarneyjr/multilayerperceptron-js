@@ -4,5 +4,5 @@ jobs:
     docker:
       - image: node:8.10.0
     steps:
-      test:
-        - npm test
+      - test
+      - run: npm test
