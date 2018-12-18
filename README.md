@@ -2,7 +2,7 @@
 
 ![](https://nodei.co/npm/multilayer-perceptron-js.png)
 
-![MultiLayerPerceptron](http://michaelbarneyjr.com/assets/images/projects/mlpjs.jpg)
+![MultiLayerPerceptron](https://michaelbarneyjr.com/static/274f4243c7920da267b0e96a15f7b833/9b421/mlpjs.jpg)
 
 Refer to my [blog post](http://michaelbarneyjr.com/blog/write-your-own-neural-networks/).
 
